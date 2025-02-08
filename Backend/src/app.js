@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 require('dotenv').config();
 
+const contentRoutes = require('./routes/contentRoutes')
+
 
 //  MiddleWare
 app.use(cors());
