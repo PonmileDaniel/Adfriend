@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ad Friend</title>
+    </head>
+    <body>
+        <div class="settings-container">
+            <h2>Customize Your Adfriend
+            
+            </h2>
+
+            <label for="option1">Custom Content:</label>
+            <input type="checkbox" id="option1" name="option1"><br><br>
+            
+            <label for="custom-text">Enter Desired Content:</label>
+            <input type="text" id="custom-text" placeholder="Type your message...">
+            
+            <label for="content-type">Choose Content Type:</label>
+            <select id="content-type">
+                <option value="custom">Custom Content</option>
+                <option value="quote">Motivational Quote</option>
+                <option value="reminder">Activity Reminder</option>
+                <option value="jokes">Joke</option>
+                <option value="advice">Random Advice</option>
+                <option value="news">Latest News</option>
+            </select>
+            
+            <button id="save-settings">Save</button>
+            
+            <div class="preview">
+                <h3>Preview:</h3>
+                <div id="preview-box">Your selected content will appear here.</div>
+            </div>
+        </div>
+    
+        <script src="script.js"></script>
+    </body>
+</html>
