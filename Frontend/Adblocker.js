@@ -1,8 +1,16 @@
 // Function to replace ad elements with "Hello, world!" like the template
+
+const customContent = `
+  <div class="custom-ad">
+    <h3>Interesting Content</h3>
+    <p>Check out this cool feature!</p>
+  </div>
+`;
+
 function replaceAdElement(ad) {
     const replacement = document.createElement('div');
     replacement.style.cssText = "padding: 10px; background: #f4f4f4; border: 1px solid #ddd;";
-    replacement.innerHTML = 'Hello, world!';
+    replacement.innerHTML = customContent;
     ad.replaceWith(replacement);
 }
 
