@@ -1,8 +1,7 @@
 // Function to replace ad elements with "Hello, world!" like the template
 function replaceAdElement(ad) {
     const replacement = document.createElement('div');
-    replacement.style.cssText = "padding: 10px; background: #f4f4f4; border: 1px solid #ddd;";
-    replacement.innerHTML = 'Hello, world!';
+    replacement.innerHTML = '<div class="widget-container"> Ad replaced</div> <div class="widget-content"><p class="widget-quote">Welcome to Adfriend</p></div>';
     ad.replaceWith(replacement);
 }
 
