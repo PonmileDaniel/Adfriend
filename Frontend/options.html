@@ -1,0 +1,109 @@
+<!-- options.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AdFriend Settings</title>
+  <link rel="stylesheet" href="options.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header">
+      <div class="branding">
+        <img src="icon-128.png" alt="AdFriend Logo" class="logo">
+        <h1>AdFriend <span class="version">v1.0</span></h1>
+      </div>
+      <div class="stats">
+        <div class="stat-item">
+          <span class="material-icons-round">block</span>
+          <span id="ads-blocked">0</span>
+          <span class="stat-label">Ads Blocked</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <div class="settings-grid">
+      <!-- General Settings Card -->
+      <div class="settings-card">
+        <h2><span class="material-icons-round">tune</span>General Settings</h2>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="dark-mode" class="toggle-switch">
+            <span class="toggle-label">Dark Mode</span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label>Ad Detection Strength</label>
+          <div class="slider-container">
+            <input type="range" id="sensitivity" min="1" max="5" value="3" class="styled-slider">
+            <div class="slider-labels">
+              <span>Basic</span>
+              <span>Aggressive</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Replacement Content Card -->
+      <div class="settings-card">
+        <h2><span class="material-icons-round">palette</span>Content Replacement</h2>
+        <div class="setting-item">
+          <label>Replacement Template</label>
+          <select id="template-select" class="styled-select">
+            <option value="simple">Simple Message</option>
+            <option value="funny">Funny Quote</option>
+            <option value="educational">Educational Fact</option>
+          </select>
+        </div>
+        <div class="setting-item">
+          <label>Custom HTML</label>
+          <textarea id="custom-html" class="styled-textarea" 
+            placeholder="Enter custom HTML..."></textarea>
+        </div>
+      </div>
+
+      <!-- Security Card -->
+      <div class="settings-card">
+        <h2><span class="material-icons-round">security</span>Security</h2>
+        <div class="setting-item">
+          <label>
+            <input type="checkbox" id="malware-block" class="toggle-switch" checked>
+            <span class="toggle-label">Block Malicious Ads</span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <label>Tracking Protection</label>
+          <div class="protection-level">
+            <div class="level-indicator active"></div>
+            <div class="level-indicator active"></div>
+            <div class="level-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+      <h3><span class="material-icons-round">visibility</span>Live Preview</h3>
+      <div id="ad-preview" class="ad-preview">
+        <!-- Preview content will be injected here -->
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn primary" id="save-settings">
+        <span class="material-icons-round">save</span>Save Changes
+      </button>
+      <button class="btn secondary" id="reset-defaults">
+        <span class="material-icons-round">restart_alt</span>Reset Defaults
+      </button>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>
