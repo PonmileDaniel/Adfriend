@@ -6,7 +6,7 @@ const { generateContent } = require('./geminiService')
  */
 
 const getMotivationalQuote = async () => {
-    const prompt = "Give me a short, inspiring motivational quote."
+    const prompt = "Give me a inspiring motivational quote do not repeat."
     return await generateContent(prompt)
 }
 module.exports = { getMotivationalQuote }
