@@ -1,0 +1,15 @@
+{
+    "declarative_net_request": {
+      "rules": [
+        {
+          "id": 1,
+          "priority": 1,
+          "action": { "type": "block" },
+          "condition": {
+            "urlFilter": "||example-ad-server.com^",
+            "resourceTypes": ["script", "image", "stylesheet", "object"]
+          }
+        }
+      ]
+    }
+  }
