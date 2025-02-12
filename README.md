@@ -12,6 +12,13 @@ Open Chrome click on extension and manage extensions
 
 Then click on Developer mode turn it on
 
+Step 1:
 Click on Load unpacked 
 
-Select your clone repo folder click on the frontend and it think that should get it up and running.
+Select the Folder load it from the client 
+
+step 2 : 
+Start you backend server 
+
+Step 3: 
+Click on the Adfriend Icon from there select the Simple message.
