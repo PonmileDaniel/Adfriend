@@ -10,6 +10,11 @@ const { getDSAQuestion } = require('../services/dsaService');
 const getContent = async (req, res) => {
     try {
         const { type } = req.query;
+        console.log("Request type", type)
+
+        if (!type) {
+            return res.status(400).json({ error: "Type parameter is required." });
+        }
 
         let content;
         if (type === 'quote') {

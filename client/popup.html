@@ -1,0 +1,69 @@
+<!-- popup.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AdFriend</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header with Quick Toggle -->
+    <div class="popup-header">
+      <div class="header-branding">
+        <h2><span class="name-text">Ad</span>Friend</h2>
+        <label class="power-switch">
+          <input type="checkbox" id="global-toggle" checked>
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+      <div class="stats-badge">
+        <span class="material-icons-round">shield</span>
+        <span id="popup-blocked-count">0</span>
+      </div>
+    </div>
+
+    <!-- Quick Settings -->
+    <div class="quick-settings">
+      <div class="setting-item compact">
+        <label>Tracking Protection</label>
+        <div class="protection-dots">
+          <div class="dot active"></div>
+          <div class="dot active"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
+      
+      <button class="quick-action" id="whitelist-site">
+        <span class="material-icons-round">website</span>
+        Whitelist Site
+      </button>
+    </div>
+
+    <!-- Quick Preview -->
+    <div class="preview-card">
+      <div class="preview-header">
+        <span class="material-icons-round">preview</span>
+        <h3>Current Replacement</h3>
+      </div>
+      <div id="mini-preview" class="preview-content">
+        <!-- Dynamic preview content -->
+      </div>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="popup-footer">
+      <button class="icon-button" id="open-options">
+        <a href="options.html"><span class="material-icons-round">settings</span></a>
+      </button>
+      <button class="icon-button" id="pause-extension">
+        <span class="material-icons-round">pause_circle</span>
+      </button>
+      <div class="status-indicator" id="connection-status"></div>
+    </div>
+  </div>
+
+  <script src="popup.ts"></script>
+</body>
+</html>
