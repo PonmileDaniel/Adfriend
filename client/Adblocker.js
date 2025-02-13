@@ -1,10 +1,4 @@
-// function getAdReplacementType() {
-//     return new Promise((resolve) => {
-//         chrome.storage.local.get("adReplacementType", (result) => {
-//             resolve(result.adReplacementType || "default");
-//         });
-//     });
-// }
+
 
 function getAdReplacementType() {
     return new Promise((resolve) => {

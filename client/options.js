@@ -48,6 +48,31 @@ document.addEventListener('DOMContentLoaded', () => {
         chrome.storage.local.set({ adReplacementType: selectedType, customHtml: customHtml }, () => {
             console.log('Settings saved:', { adReplacementType: selectedType, customHtml: customHtml });
             alert('Settings saved successfully!');
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const darkModeToggle = document.getElementById("dark-mode");
+
+    // Check if dark mode is already enabled in localStorage
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.setAttribute("data-theme", "dark");
+        darkModeToggle.checked = true;
+    }
+
+    // Toggle dark mode when checkbox is clicked
+    darkModeToggle.addEventListener("change", function () {
+        if (darkModeToggle.checked) {
+            document.body.setAttribute("data-theme", "dark");
+            localStorage.setItem("darkMode", "enabled");
+        } else {
+            document.body.removeAttribute("data-theme");
+            localStorage.setItem("darkMode", "disabled");
+        }
     });
 });
