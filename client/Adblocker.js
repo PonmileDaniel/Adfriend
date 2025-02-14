@@ -1,5 +1,3 @@
-
-
 function getAdReplacementType() {
     return new Promise((resolve) => {
         chrome.storage.local.get(["adReplacementType", "customHtml"], (result) => {
@@ -9,9 +7,7 @@ function getAdReplacementType() {
 }
 
 
-//   Function to replace ads with custom content
-
-
+//   Function to fetch content from the Backend
 async function fetchAIContent(type, customHtml = "") {
     console.log('Fetching content for type:', type);
 
@@ -67,34 +63,34 @@ const adSelectors = [
 
 let cachedContent = null;
 
-// async function replaceAds() { 
-//     try {
-//         const userChoice = await getAdReplacementType();
-//         console.log('Selected content type:', userChoice);
-
-//         cachedContent = await fetchAIContent(userChoice, customHtml);
-//         console.log('Fetched content:', cachedContent);
-
-//         adSelectors.forEach((selector) => {
-//             document.querySelectorAll(selector).forEach(ad => replaceAdElement(ad, cachedContent));
-//         });
-//     } catch (err) {
-//         console.log("Error replacing ads:", err);
-//     }
-// }
-
 
 async function replaceAds() { 
     try {
         const { adReplacementType, customHtml } = await getAdReplacementType();
+
+        // Slider Try
+        const { sensitivity } = await new Promise((resolve) => {
+            chrome.storage.local.get(['sensitivity'], (result) => {
+                resolve({ sensitivity: result.sensitivity || 50 });
+            });
+        });
         console.log('Selected content type:', adReplacementType);
         console.log('User custom input:', customHtml);
+
+        console.log('Sensitivity:', sensitivity);
 
         cachedContent = await fetchAIContent(adReplacementType, customHtml);
         console.log('Fetched content:', cachedContent);
 
+        // adSelectors.forEach((selector) => {
+        //     document.querySelectorAll(selector).forEach(ad => replaceAdElement(ad, cachedContent));
+    
         adSelectors.forEach((selector) => {
-            document.querySelectorAll(selector).forEach(ad => replaceAdElement(ad, cachedContent));
+            document.querySelectorAll(selector).forEach(ad => {
+                if (sensitivity >= 50) {
+                    replaceAdElement(ad, cachedContent);
+                }
+            });
         });
     } catch (err) {
         console.log("Error replacing ads:", err);
@@ -103,24 +99,60 @@ async function replaceAds() {
 
 
 
+//  To block Dynamic Content 
+// const observer = new MutationObserver(async (mutationsList) => {
+//     try {
+//         for (const mutation of mutationsList) {
+//             mutation.addedNodes.forEach((node) => {
+//                 if (node.nodeType === Node.ELEMENT_NODE) {
+//                     adSelectors.forEach((selector) => {
+//                         if (node.matches(selector)) {
+//                             replaceAdElement(node, cachedContent);
+//                         } else {
+//                             node.querySelectorAll(selector).forEach(ad => replaceAdElement(ad, cachedContent));
+//                         }
+//                     });
+//                 }
+//             });
+//         }
+//     } catch (err) {
+//         console.error("Error in MutationObserver:", err);
+//     }
+// });
+
+
 
 const observer = new MutationObserver(async (mutationsList) => {
     try {
+        const { sensitivity } = await new Promise((resolve) => {
+            chrome.storage.local.get(['sensitivity'], (result) => {
+                resolve({ sensitivity: result.sensitivity || 50})
+            })
+        });
+
         for (const mutation of mutationsList) {
             mutation.addedNodes.forEach((node) => {
                 if (node.nodeType === Node.ELEMENT_NODE) {
                     adSelectors.forEach((selector) => {
                         if (node.matches(selector)) {
-                            replaceAdElement(node, cachedContent);
+                            if (sensitivity > 50) {
+                                replaceAdElement(node, cachedContent);
+                            }
                         } else {
-                            node.querySelectorAll(selector).forEach(ad => replaceAdElement(ad, cachedContent));
+                            node.querySelectorAll(selector).forEach(ad => {
+                                if (sensitivity > 50 ) {
+                                    replaceAdElement(ad, cachedContent);
+
+                                }
+                            });
+                                
                         }
                     });
                 }
             });
         }
     } catch (err) {
-        console.error("Error in MutationObserver:", err);
+        console.log("Error in MutationObserver:", err);
     }
 });
 
@@ -137,3 +169,5 @@ chrome.storage.local.get("adReplacementType", (result) => {
     }
     replaceAds();
 });
+
+
