@@ -5,7 +5,7 @@
     "description": "Replaces ads with positive content.",
     "options_page": "options.html",
     "action": {
-      "default_popup": "options.html"
+      "default_popup": "popup.html"
     },
     "permissions": ["scripting", "activeTab", "storage"],
     "host_permissions": ["<all_urls>"],
