@@ -75,23 +75,50 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// document.addEventListener("DOMContentLoaded", function () {
+//     const darkModeToggle = document.getElementById("dark-mode");
+
+//     // Check if dark mode is already enabled in localStorage
+//     if (localStorage.getItem("darkMode") === "enabled") {
+//         document.body.setAttribute("data-theme", "dark");
+//         darkModeToggle.checked = true;
+//     }
+
+//     // Toggle dark mode when checkbox is clicked
+//     darkModeToggle.addEventListener("change", function () {
+//         if (darkModeToggle.checked) {
+//             document.body.setAttribute("data-theme", "dark");
+//             localStorage.setItem("darkMode", "enabled");
+//         } else {
+//             document.body.removeAttribute("data-theme");
+//             localStorage.setItem("darkMode", "disabled");
+//         }
+//     });
+// });
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const darkModeToggle = document.getElementById("dark-mode");
 
-    // Check if dark mode is already enabled in localStorage
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.setAttribute("data-theme", "dark");
-        darkModeToggle.checked = true;
-    }
+    // Load dark mode state from chrome.storage.local
+    chrome.storage.local.get(["darkMode"], function (result) {
+        if (result.darkMode === "enabled") {
+            document.body.setAttribute("data-theme", "dark");
+            darkModeToggle.checked = true;
+        } else {
+            document.body.removeAttribute("data-theme");
+            darkModeToggle.checked = false;
+        }
+    });
 
     // Toggle dark mode when checkbox is clicked
     darkModeToggle.addEventListener("change", function () {
         if (darkModeToggle.checked) {
             document.body.setAttribute("data-theme", "dark");
-            localStorage.setItem("darkMode", "enabled");
+            chrome.storage.local.set({ darkMode: "enabled" });
         } else {
             document.body.removeAttribute("data-theme");
-            localStorage.setItem("darkMode", "disabled");
+            chrome.storage.local.set({ darkMode: "disabled" });
         }
     });
 });
