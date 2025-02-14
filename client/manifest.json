@@ -7,7 +7,12 @@
     "action": {
       "default_popup": "popup.html"
     },
-    "permissions": ["scripting", "activeTab", "storage"],
+    "permissions": [
+      "scripting",
+      "activeTab",
+      "storage",
+    "notifications"
+  ],
     "host_permissions": ["<all_urls>"],
     "content_scripts": [
       {

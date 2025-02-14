@@ -14,6 +14,26 @@ function updatePreview(type, customHtml) {
 }
 
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "toggleExtension") {
+      chrome.storage.local.set({ enabled: message.enabled });
+  
+      console.log(`Extension is now ${message.enabled ? "Enabled" : "Disabled"}`);
+  
+      sendResponse({ status: "success" });
+    }
+  });
+
+chrome.storage.local.get("enabled", (data) => {
+  if (data.enabled === false) {
+    console.log("Extension is turned off.");
+    return;
+  }
+
+  console.log("Extension is active.");
+
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get(['adReplacementType', 'customHtml'], (result) => {
