@@ -40,13 +40,32 @@ document.addEventListener('DOMContentLoaded', () => {
         updatePreview(selectedType, customHtml);
     });
 
+    //  Listen for changes in the sensitivity slider : Slider
+    document.getElementById('sensitivity').addEventListener('input', (event) => {
+        const sensitivity = event.target.value;
+        console.log("Slider value changed to:", sensitivity);
+        chrome.storage.local.set({ sensitivity: parseInt(sensitivity) }, () => {
+            console.log("Sensitivity Saved", sensitivity);
+
+            // replaceAds();
+        })
+    })
+
+    //  Load saved sensitivity value : Slider
+    chrome.storage.local.get(['sensitivity'], (result) => {
+        const sensitivity = result.sensitivity || 50;
+        document.getElementById('sensitivity').value = sensitivity;
+
+    })
+
+
     // Save settings
     document.getElementById('save-settings').addEventListener('click', () => {
         const selectedType = document.getElementById('template-select').value;
         const customHtml = document.getElementById('custom-html').value.trim();
 
         chrome.storage.local.set({ adReplacementType: selectedType, customHtml: customHtml }, () => {
-            console.log('Settings saved:', { adReplacementType: selectedType, customHtml: customHtml });
+            console.log('Settings saved:', { adReplacementType: selectedType, customHtml: customHtml, sensitivity: sensitivity });
             alert('Settings saved successfully!');
             setTimeout(() => {
                 window.location.reload();
