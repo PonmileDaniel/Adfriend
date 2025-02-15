@@ -75,27 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     const darkModeToggle = document.getElementById("dark-mode");
-
-//     // Check if dark mode is already enabled in localStorage
-//     if (localStorage.getItem("darkMode") === "enabled") {
-//         document.body.setAttribute("data-theme", "dark");
-//         darkModeToggle.checked = true;
-//     }
-
-//     // Toggle dark mode when checkbox is clicked
-//     darkModeToggle.addEventListener("change", function () {
-//         if (darkModeToggle.checked) {
-//             document.body.setAttribute("data-theme", "dark");
-//             localStorage.setItem("darkMode", "enabled");
-//         } else {
-//             document.body.removeAttribute("data-theme");
-//             localStorage.setItem("darkMode", "disabled");
-//         }
-//     });
-// });
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const darkModeToggle = document.getElementById("dark-mode");
@@ -121,4 +100,20 @@ document.addEventListener("DOMContentLoaded", function () {
             chrome.storage.local.set({ darkMode: "disabled" });
         }
     });
+});
+
+// AdsBlocked Count to get it from local storage
+document.addEventListener("DOMContentLoaded", () => {
+    //  Load the adds blocked count
+    chrome.storage.local.get(['adsBlocked'], (result) => {
+        const adsBlocked = result.adsBlocked || 0;
+        document.getElementById('ads-blocked').textContent = adsBlocked;
+    })
+
+    // Listen for changes to the ads blocked count
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+        if (changes.adsBlocked) {
+            document.getElementById('ads-blocked').textContent = changes.adsBlocked.newValue;
+        }
+    })
 });
