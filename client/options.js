@@ -5,10 +5,13 @@ function updatePreview(type, customHtml) {
     if (type === 'simple') {
         preview.innerHTML = `<p>${customHtml || "Enter your custom message ..."}</p>`;
     } else if (type === 'quote') {
-        preview.innerHTML = '<p>"Success is not final, failure is not fatal: it is the courage to continue that counts." - Winston Churchill</p>';
+        preview.innerHTML = '<p>"Success is not final, failure is not fatal: it is the courage to continue that counts." - Winston Churchill. Your ads are replaced by Quotes</p>';
     } else if (type === 'dsa') {
-        preview.innerHTML = '<p>DSA Challenge: Implement a binary search algorithm!</p>';
-    } else {
+        preview.innerHTML = '<p>DSA Challenge: Implement a binary search algorithm! Your ads are replaced by Dsa Questions</p>';
+    } else if (type === 'joke') {
+        preview.innerHTML = '<p>Funniest Jokes told by Ai! Your ads are replaced by Jokes</p>';
+    } 
+    else {
         preview.innerHTML = `<p>${customHtml || "Enter your custom message..."}</p>`;
     }
 }

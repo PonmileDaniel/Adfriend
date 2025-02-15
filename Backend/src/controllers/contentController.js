@@ -1,5 +1,6 @@
 const { getMotivationalQuote } = require('../services/quoteService');
 const { getDSAQuestion } = require('../services/dsaService');
+const { getJokesQuote } = require('../services/jokeServices')
 
 /**
  * Handles AI content generation
@@ -22,16 +23,18 @@ const getContent = async (req, res) => {
         }
         else if (type === 'dsa') {
             content = await getDSAQuestion();
+        } else if (type === 'joke') {
+            content = await getJokesQuote();
         }
         else {
             return res.status(400).json({ error: "Invalid type. Use 'quote' or 'dsa'." });
         }
         let cleanContent = content.replace(/\*\*/g, "").replace(/\n+/g, " ").trim();
 
-        // ✅ Ensure response starts with "DSA Question:"
+        //  Ensure response starts with "DSA Question:"
         if (type === "dsa") {
             cleanContent = cleanContent.replace(/^.*?Question:/i, "").trim(); // Remove AI intro
-            cleanContent = `DSA Question: ${cleanContent}`;
+            cleanContent = `DSA : ${cleanContent}`;
         }
         res.json({ content: cleanContent })
     } catch (error) {

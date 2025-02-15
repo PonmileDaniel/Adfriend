@@ -44,7 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
             miniPreview.innerHTML = '<p>"Success is not final, failure is not fatal: it is the courage to continue that counts." - Winston Churchill</p>';
         } else if (adReplacementType === 'dsa') {
             miniPreview.innerHTML = "<p>DSA Challenge: Implement a binary search algorithm!</p>";
-        } else {
+        } else if (type === 'joke') {
+          preview.innerHTML = '<p>Funniest Jokes told by Ai! Your ads are replaced by Jokes</p>';
+        } 
+         else {
             miniPreview.innerHTML = `<p>${customHtml || "No replacement content selected."}</p>`;
         }
     }

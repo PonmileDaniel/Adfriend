@@ -76,11 +76,11 @@ const adSelectors = [
     "[id^='google_ads']",
     "[class^='google-ad']",
     "[id='google_ads_iframe']",
-    // "[class='ad-slot-header']",
-    // "[class='ad-slot']",
-    // "[div='ad-slot']",
-    // "[alt*='ad']",
-    // "[alt*='Advertisement']"
+    "[class='ad-slot-header']",
+    "[class='ad-slot']",
+    "[div='ad-slot']",
+    "[alt*='ad']",
+    "[alt*='Advertisement']"
 ];
 
 let cachedContent = null;
