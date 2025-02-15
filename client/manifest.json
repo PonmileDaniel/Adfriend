@@ -7,12 +7,13 @@
     "action": {
       "default_popup": "popup.html"
     },
+    "background": {
+    "service_worker": "background.js"
+  },
+
     "permissions": [
-      "scripting",
-      "activeTab",
-      "storage",
-    "notifications"
-  ],
+      "scripting", "activeTab", "storage", "notifications"
+    ],
     "host_permissions": ["<all_urls>"],
     "content_scripts": [
       {
