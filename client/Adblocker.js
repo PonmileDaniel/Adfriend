@@ -43,9 +43,24 @@ let adsBlockedCount = 0 // Counter for blocked ads
 async function replaceAdElement(ad, content) {
     console.log('Replacing ad with content:', content); 
     const replacement = document.createElement('div');
-    replacement.style.cssText = "padding: 10px; background: #f4f4f4; border: 1px solid #ddd;";
+//     replacement.style.cssText = `
+//     padding: 12px;
+//     background: var(--card-bg, #ffffff);
+//     border: 1px solid var(--border, #ddd);
+//     border-radius: 8px;
+//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+//     color: var(--text, #2d3436);
+//     font-family: 'Segoe UI', system-ui, sans-serif;
+//     font-size: 0.9rem;
+//     line-height: 1.4;
+//     transition: all 0.3s ease; #2d3436  #ffffff
+// `;
+    replacement.style.cssText = "padding: 10px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border); transition: all 0.3s ease; color: var(--text, #2d3436);";
     replacement.innerHTML = content;
+
     ad.replaceWith(replacement);
+
+    
 
     // Increment the counter 
     adsBlockedCount++;

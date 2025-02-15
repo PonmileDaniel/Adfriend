@@ -6,7 +6,7 @@ const { generateContent } = require('./geminiService')
  */
 
 const getDSAQuestion = async () => {
-    const prompt = "Give me a coding interview question related to Data Structure and Algorithms and make it short.";
+    const prompt = "Provide a unique, concise, and clear Data Structures and Algorithms (DSA) question suitable for a coding interview. Ensure the question is short and focuses on a specific concept.";
     return await generateContent(prompt)
 }
 

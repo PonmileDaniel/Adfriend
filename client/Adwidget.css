@@ -1,0 +1,33 @@
+.widget-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background:royalblue;
+    border: 1px solid black;
+    border-radius: 8px;
+    max-width: 100%;  /* Allowing it to fit the parent container's width */
+    max-height: 100%; /* Allowing it to fit the parent container's height */
+    margin: 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: rgb(255, 255, 255);
+}
+
+
+.widget-quote {
+    font-size: 1.5vw; 
+    color: rgb(255, 255, 255);
+    text-align:center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Media queries for smaller devices */
+@media (max-width: 768px) {
+    .widget-quote {
+        font-size: 3vw;
+    }
+}

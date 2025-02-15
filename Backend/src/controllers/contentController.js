@@ -34,7 +34,7 @@ const getContent = async (req, res) => {
         //  Ensure response starts with "DSA Question:"
         if (type === "dsa") {
             cleanContent = cleanContent.replace(/^.*?Question:/i, "").trim(); // Remove AI intro
-            cleanContent = `DSA : ${cleanContent}`;
+            cleanContent = `DSA Question: ${cleanContent}`;
         }
         res.json({ content: cleanContent })
     } catch (error) {

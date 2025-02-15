@@ -6,7 +6,7 @@ const { generateContent } = require('./geminiService')
  */
 
 const getMotivationalQuote = async () => {
-    const prompt = "Give me a inspiring motivational quote do not repeat."
+    const prompt = "Generate a unique and inspirational motivational quote that encourages positivity, growth, and resilience. Ensure the quote is original and has not been repeated before."
     return await generateContent(prompt)
 }
 module.exports = { getMotivationalQuote }
