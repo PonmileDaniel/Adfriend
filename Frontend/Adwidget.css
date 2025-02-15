@@ -15,24 +15,19 @@
     color: white;
 }
 
-.widget-content {
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-}
+ 
 .widget-quote {
-    font-size: 1.5vw; /* Relative to viewport width */
-    color: #110f0f;
-    background-color:#228B22;
+    font-size: 1.5vw; 
+    color: white;
     text-align:center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 /* Media queries for smaller devices */
 @media (max-width: 768px) {
-    .widget-title {
-        font-size: 3vw;
-    }
     .widget-quote {
-        font-size: 2vw;
+        font-size: 3vw;
     }
 }
