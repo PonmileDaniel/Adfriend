@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "AdFriend",
+    "version": "1.0",
+    "description": "Replaces ads with positive content.",
+    "options_page": "options.html",
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "permissions": ["scripting", "activeTab", "storage"],
+    "host_permissions": ["<all_urls>"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["Adblocker.js"]
+      }
+    ]
+  }
