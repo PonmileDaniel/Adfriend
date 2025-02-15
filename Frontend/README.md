@@ -16,7 +16,7 @@ Ad Friend is a Chrome extension that enhances your browsing experience by blocki
 - **Dark mode:**  Switch the background colour dark.
 - **Quotes:** Randomly generated quotes when ads are blocked.
 - **Adsblocked:** View the amount of blocked ads on the extension dashboard.
-- **ON-0FF**Option to activate or deactivate the extension.
+- **ON-0FF:** Option to activate or deactivate the extension.
 - **Live preview:** View what each ads are been replaced with.
 - **Jokes:** Jokes conntent also used to replace blocked ads.
 - **Easy to use:** Very smooth navigation process.
