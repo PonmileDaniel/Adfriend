@@ -1,17 +1,13 @@
-chrome.runtime.onInstalled.addListener(() => {
-    // Set default state
-    chrome.storage.local.set({ enabled: true });
-});
+// background.js
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "toggleExtension") {
-        chrome.storage.local.get("enabled", (data) => {
-            let newState = !data.enabled;
-            chrome.storage.local.set({ enabled: newState }, () => {
-                sendResponse({ status: "ok", enabled: newState });
-            });
-        });
-
-        return true; // Required for async `sendResponse`
+// Listen for messages from the popup
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === "toggleEnabled") {
+      // Forward the message to the content script
+      chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        if (tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id, request);
+        }
+      });
     }
-});
+  });
