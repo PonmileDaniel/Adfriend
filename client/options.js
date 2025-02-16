@@ -1,4 +1,3 @@
-
 function updatePreview(type, customHtml) {
     const preview = document.getElementById('ad-preview');
 
@@ -69,10 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         chrome.storage.local.set({ adReplacementType: selectedType, customHtml: customHtml }, () => {
             console.log('Settings saved:', { adReplacementType: selectedType, customHtml: customHtml, sensitivity: sensitivity });
-            alert('Settings saved successfully!');
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            alert('Settings saved successfully! Please refresh your web page');
+            // setTimeout(() => {
+            //     window.location.reload();
+            // }, 500);
         });
     });
 });

@@ -1,77 +1,87 @@
+/**
+ * Retrieves the ad replacement type and custom HTML from Chrome's local storage.
+ * @returns {Promise<{adReplacementType: string, customHtml: string}>} A promise that resolves with the ad replacement type and custom HTML.
+ */
 function getAdReplacementType() {
     return new Promise((resolve) => {
-        chrome.storage.local.get(["adReplacementType", "customHtml"], (result) => {
-            resolve({ adReplacementType: result.adReplacementType || "default", customHtml: result.customHtml || "" });
-        });
+      chrome.storage.local.get(["adReplacementType", "customHtml"], (result) => {
+        resolve({ adReplacementType: result.adReplacementType || "default", customHtml: result.customHtml || "" });
+      });
     });
-}
-
-
-//   Function to fetch content from the Backend
-async function fetchAIContent(type, customHtml = "") {
+  }
+  
+  /**
+   * Fetches AI-generated content from the backend API based on the given type.
+   * @param {string} type - The type of content to fetch.
+   * @param {string} [customHtml=""] - The user-defined custom HTML.
+   * @returns {Promise<string>} The fetched content or a default message if an error occurs.
+   */
+  async function fetchAIContent(type, customHtml = "") {
     console.log('Fetching content for type:', type);
-
+  
     if (type === 'simple') {
-        console.log('Using user-provided custom text:', customHtml);
-        return customHtml || 'Enter your custom message...'
+      console.log('Using user-provided custom text:', customHtml);
+      return customHtml || 'Enter your custom message...';
     }
-
+  
     try {
-        console.log('Marking API request for type:', type);
-        const response = await fetch(`http://localhost:5000/api/get-content?type=${type}`);
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data.content
+      console.log('Making API request for type:', type);
+      const response = await fetch(`http://localhost:5000/api/get-content?type=${type}`);
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data.content;
     } catch (err) {
-        console.log("Error fetching AI content", err);
-        return "Error loading content";
+      console.log("Error fetching AI content", err);
+      return "Error loading content";
     }
-    
-}
+  }
+  
+  /**
+   * Replaces an ad element with the provided content and updates the blocked ads count.
+   * @param {HTMLElement} ad - The ad element to be replaced.
+   * @param {string} content - The replacement content.
+   */
 
+  let adsBlockedCount = 0; // Counter for blocked ads
 
-
-
-// Function to replace ad elements with "Hello, world!" like the template
-
-let adsBlockedCount = 0 // Counter for blocked ads
-
-
-async function replaceAdElement(ad, content) {
-    console.log('Replacing ad with content:', content); 
+  async function replaceAdElement(ad, content) {
+    console.log('Replacing ad with content:', content);
     const replacement = document.createElement('div');
     replacement.style.cssText = "padding: 10px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border); transition: all 0.3s ease; color: var(--text, #2d3436);";
     replacement.innerHTML = content;
-
+  
     ad.replaceWith(replacement);
-
-    // Increment the counter 
+  
+    // Increment the counter
     adsBlockedCount++;
-
-    // Save the Updated count to chrome.storgae.local
-    chrome.storage.local.set( {adsBlocked: adsBlockedCount}, () => {
-        console.log('Ads blocked counted updated:', adsBlockedCount);
+  
+    // Save the updated count to Chrome's local storage
+    chrome.storage.local.set({ adsBlocked: adsBlockedCount }, () => {
+      console.log('Ads blocked count updated:', adsBlockedCount);
     });
-}
-
-//  Reset the counter
-function resetAdsBlockedCount() {
+  }
+  
+  /**
+   * Resets the counter for blocked ads.
+   */
+  function resetAdsBlockedCount() {
     adsBlockedCount = 0;
-    chrome.storage.local.set({ adsBlocked: 0}, () => {
-        console.log('Ads blocked count reset to 0');
+    chrome.storage.local.set({ adsBlocked: 0 }, () => {
+      console.log('Ads blocked count reset to 0');
     });
-}
-
-document.getElementById('reset-counter')?.addEventListener('click', resetAdsBlockedCount);
-
-// Ad selectors
-const adSelectors = [
-    'iframe', 
-    '.ad-banner', 
-    '.adsbygoogle', 
+  }
+  
+  document.getElementById('reset-counter')?.addEventListener('click', resetAdsBlockedCount);
+  
+  /**
+   * List of selectors for detecting ad elements on the page.
+   */
+  const adSelectors = [
+    '.ad-banner',
+    '.adsbygoogle',
     '.sponsored',
     'fbs-ad',
     "[id^='google_ads']",
@@ -82,90 +92,106 @@ const adSelectors = [
     "[div='ad-slot']",
     "[alt*='ad']",
     "[alt*='Advertisement']"
-];
-
-let cachedContent = null;
-
-
-async function replaceAds() { 
+  ];
+  
+  let cachedContent = null;
+  
+  /**
+   * Replaces detected ads on the page with alternative content.
+   */
+  async function replaceAds() {
     try {
-        const { adReplacementType, customHtml } = await getAdReplacementType();
-
-        // Slider Try
-        const { sensitivity } = await new Promise((resolve) => {
-            chrome.storage.local.get(['sensitivity'], (result) => {
-                resolve({ sensitivity: result.sensitivity || 50 });
-            });
+      const { adReplacementType, customHtml } = await getAdReplacementType();
+  
+      // Get sensitivity setting
+      const { sensitivity } = await new Promise((resolve) => {
+        chrome.storage.local.get(['sensitivity'], (result) => {
+          resolve({ sensitivity: result.sensitivity || 50 });
         });
-        console.log('Selected content type:', adReplacementType);
-        console.log('User custom input:', customHtml);
-
-        console.log('Sensitivity:', sensitivity);
-
-        cachedContent = await fetchAIContent(adReplacementType, customHtml);
-        console.log('Fetched content:', cachedContent);
-    
-        adSelectors.forEach((selector) => {
-            document.querySelectorAll(selector).forEach(ad => {
-                if (sensitivity >= 50) {
-                    replaceAdElement(ad, cachedContent);
-                }
-            });
+      });
+      console.log('Selected content type:', adReplacementType);
+      console.log('User custom input:', customHtml);
+      console.log('Sensitivity:', sensitivity);
+  
+      cachedContent = await fetchAIContent(adReplacementType, customHtml);
+      console.log('Fetched content:', cachedContent);
+  
+      adSelectors.forEach((selector) => {
+        document.querySelectorAll(selector).forEach(ad => {
+          if (sensitivity >= 50) {
+            replaceAdElement(ad, cachedContent);
+          }
         });
+      });
     } catch (err) {
-        console.log("Error replacing ads:", err);
+      console.log("Error replacing ads:", err);
     }
-}
-
-
-
-
-const observer = new MutationObserver(async (mutationsList) => {
+  }
+  
+  /**
+   * Observes changes in the DOM to detect and replace newly added ad elements.
+   */
+  const observer = new MutationObserver(async (mutationsList) => {
     try {
-        const { sensitivity } = await new Promise((resolve) => {
-            chrome.storage.local.get(['sensitivity'], (result) => {
-                resolve({ sensitivity: result.sensitivity || 50})
-            })
+      const { sensitivity } = await new Promise((resolve) => {
+        chrome.storage.local.get(['sensitivity'], (result) => {
+          resolve({ sensitivity: result.sensitivity || 50 });
         });
-
-        for (const mutation of mutationsList) {
-            mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                    adSelectors.forEach((selector) => {
-                        if (node.matches(selector)) {
-                            if (sensitivity > 50) {
-                                replaceAdElement(node, cachedContent);
-                            }
-                        } else {
-                            node.querySelectorAll(selector).forEach(ad => {
-                                if (sensitivity > 50 ) {
-                                    replaceAdElement(ad, cachedContent);
-
-                                }
-                            });
-                                
-                        }
-                    });
+      });
+  
+      for (const mutation of mutationsList) {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            adSelectors.forEach((selector) => {
+              if (node.matches(selector) || node.querySelector(selector)) {
+                if (sensitivity > 50) {
+                  replaceAdElement(node, cachedContent);
                 }
+              }
             });
-        }
+          }
+        });
+      }
     } catch (err) {
-        console.log("Error in MutationObserver:", err);
+      console.log("Error in MutationObserver:", err);
     }
-});
-
-
-
-// Start observing changes
-observer.observe(document.body, { childList: true, subtree: true });
-
-
-
-chrome.storage.local.get("adReplacementType", (result) => {
+  });
+  
+  /**
+   * Toggles the ad blocker functionality on or off.
+   * @param {boolean} enabled - Whether the ad blocker should be enabled.
+   */
+  function toggleAdBlocker(enabled) {
+    isEnabled = enabled;
+    if (enabled) {
+      console.log("Ad blocker enabled");
+      observer.observe(document.body, { childList: true, subtree: true });
+      replaceAds();
+    } else {
+      console.log("Ad blocker disabled");
+      observer.disconnect();
+    }
+  }
+  
+  // Listen for messages from the popup to toggle the ad blocker
+  chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === "toggleEnabled") {
+      toggleAdBlocker(request.enabled);
+      sendResponse({ success: true });
+    }
+  });
+  
+  // Load the initial enabled state from Chrome's local storage
+  chrome.storage.local.get(["enabled"], function (result) {
+    const enabled = result.enabled !== undefined ? result.enabled : true;
+    toggleAdBlocker(enabled);
+  });
+  
+  // Start observing changes and replace ads if enabled
+  chrome.storage.local.get("adReplacementType", (result) => {
     if (!result.adReplacementType) {
-        chrome.storage.local.set({ adReplacementType: "default" }); // Set only if not already set
+      chrome.storage.local.set({ adReplacementType: "default" });
     }
     replaceAds();
-});
-
-
+  });
+  
