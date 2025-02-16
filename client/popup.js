@@ -90,3 +90,14 @@ document.getElementById('open-options').addEventListener('click', function () {
       }
     });
   });
+
+
+
+
+  chrome.runtime.sendMessage({ action: "testMessage" }, (response) => {
+    if (chrome.runtime.lastError) {
+        console.error("Error: ", chrome.runtime.lastError.message);
+    } else {
+        console.log("Response from background:", response);
+    }
+});
