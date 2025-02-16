@@ -44,26 +44,78 @@ function getAdReplacementType() {
    * @param {HTMLElement} ad - The ad element to be replaced.
    * @param {string} content - The replacement content.
    */
-
   let adsBlockedCount = 0; // Counter for blocked ads
 
   async function replaceAdElement(ad, content) {
     console.log('Replacing ad with content:', content);
-    const replacement = document.createElement('div');
-    replacement.style.cssText = "padding: 10px; background: #ffffff; border-radius: 8px; border: 1px solid var(--border); transition: all 0.3s ease; color: var(--text, #2d3436);";
-    replacement.innerHTML = content;
   
+    // Create a shadow DOM for the replacement element
+    const replacement = document.createElement('div');
+    const shadow = replacement.attachShadow({ mode: 'open' });
+  
+    // Add your CSS to the shadow DOM
+    const style = document.createElement('style');
+    style.textContent = `
+        .widget-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: royalblue;
+            border-radius: 8px;
+            margin: 0 auto;
+            text-align: center;
+            box-sizing: border-box;
+            overflow: hidden;
+            color: rgb(255, 255, 255);
+            transition: all 0.3s ease;
+        }
+  
+        .widget-quote {
+            font-size: 1.0vw;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            white-space: normal;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+        }
+  
+        /* Media queries for smaller devices */
+        @media (max-width: 768px) {
+            .widget-quote {
+                font-size: 2vw;
+            }
+        }
+    `;
+    shadow.appendChild(style);
+  
+    // Create the widget structure
+    const container = document.createElement('div');
+    container.className = 'widget-container';
+  
+    const quote = document.createElement('div');
+    quote.className = 'widget-quote';
+    quote.textContent = content;
+  
+    container.appendChild(quote);
+    shadow.appendChild(container);
+  
+    // Replace the ad with the new widget
     ad.replaceWith(replacement);
   
     // Increment the counter
     adsBlockedCount++;
   
     // Save the updated count to Chrome's local storage
-    chrome.storage.local.set({ adsBlocked: adsBlockedCount }, () => {
+    try {
+      await chrome.storage.local.set({ adsBlocked: adsBlockedCount });
       console.log('Ads blocked count updated:', adsBlockedCount);
-    });
+    } catch (err) {
+      console.error('Failed to update ads blocked count:', err);
+    }
   }
   
+
   /**
    * Resets the counter for blocked ads.
    */
@@ -194,4 +246,5 @@ function getAdReplacementType() {
     }
     replaceAds();
   });
+  
   
