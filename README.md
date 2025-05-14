@@ -25,7 +25,7 @@ Ad Friend is a Chrome extension that enhances your browsing experience by blocki
 Ensure you have chrome browser installed. Then, download the zip file:
 
 ## Usage
-1. Install the extension as described in the [https://drive.google.com/file/d/176-zZRpqT29bG4XAkNCZDw4oSafNOmv3/view?usp=drivesdk](#Installation) section.
+1. Install the extension as described in the [Installation](#Installation) section.
 2. Once the extension is installed, it will automatically start blocking ads on the websites you visit.
 3. The number of ads blocked will be displayed on the dashboard.
 
